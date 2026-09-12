@@ -50,7 +50,6 @@ async def register_individual(
     images: list[UploadFile] = File(...),
     db: Session = Depends(get_db),
 ):
-    
     full_name = full_name.strip()
     if not full_name:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "full_name is required.")
@@ -59,7 +58,6 @@ async def register_individual(
             status.HTTP_400_BAD_REQUEST,
             f"At least {MIN_SAMPLES_PER_INDIVIDUAL} face image is required.",
         )
-
 
     crops = []
     for f in images:
@@ -85,7 +83,7 @@ async def register_individual(
         notes=notes.strip() or None,
     )
     db.add(individual)
-    db.flush()  
+    db.flush()
 
     person_dir = Path(FACES_DIR) / str(individual.id)
     person_dir.mkdir(parents=True, exist_ok=True)
@@ -141,7 +139,7 @@ def delete_individual(individual_id: int, db: Session = Depends(get_db)):
     try:
         person_dir.rmdir()
     except OSError:
-        pass  
+        pass
 
     db.delete(individual)
     db.commit()

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import logging
@@ -36,13 +35,11 @@ class MultipleFacesDetected(Exception):
 class RecognitionResult:
     matched: bool
     individual_id: Optional[int]
-    distance: Optional[float]  
-    confidence_pct: Optional[float] 
+    distance: Optional[float]
+    confidence_pct: Optional[float]
 
 
 class FaceEngine:
-   
-
     def __init__(self) -> None:
         self._detector = cv2.CascadeClassifier(_CASCADE_PATH)
         if self._detector.empty():
@@ -53,9 +50,7 @@ class FaceEngine:
         self._label_count = 0
         self._load_if_exists()
 
-   
     def detect_largest_face(self, image_bgr: np.ndarray) -> np.ndarray:
-        
         gray = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
         gray = cv2.equalizeHist(gray)
         faces = self._detector.detectMultiScale(
@@ -66,12 +61,10 @@ class FaceEngine:
         )
         if len(faces) == 0:
             raise NoFaceDetected("No face detected in the supplied image.")
-      
         faces = sorted(faces, key=lambda b: b[2] * b[3], reverse=True)
         return faces[0]
 
     def preprocess(self, image_bgr: np.ndarray, box) -> np.ndarray:
-       
         x, y, w, h = box
         x, y = max(0, x), max(0, y)
         face = image_bgr[y : y + h, x : x + w]
@@ -84,14 +77,11 @@ class FaceEngine:
         box = self.detect_largest_face(image_bgr)
         return self.preprocess(image_bgr, box)
 
-  
     def train(self, samples: list[tuple[np.ndarray, int]]) -> None:
-        
         with self._lock:
             if not samples:
                 self._trained = False
                 self._label_count = 0
-                
                 self._recognizer = cv2.face.LBPHFaceRecognizer_create()
                 return
             images = [s[0] for s in samples]
@@ -114,16 +104,13 @@ class FaceEngine:
             except cv2.error:
                 logger.warning("Could not load cached model; will retrain on next change.")
 
-   
     def identify(self, image_bgr: np.ndarray) -> RecognitionResult:
-       
         face = self.extract_face(image_bgr)
         with self._lock:
             if not self._trained:
                 return RecognitionResult(False, None, None, None)
             label, distance = self._recognizer.predict(face)
         matched = distance <= LBPH_MAX_DISTANCE
-       
         confidence_pct = max(0.0, min(100.0, 100.0 * (1 - distance / (LBPH_MAX_DISTANCE * 2))))
         return RecognitionResult(
             matched=matched,
@@ -133,12 +120,10 @@ class FaceEngine:
         )
 
 
-
 engine = FaceEngine()
 
 
 def decode_image(raw_bytes: bytes) -> np.ndarray:
-   
     arr = np.frombuffer(raw_bytes, dtype=np.uint8)
     img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
     if img is None:

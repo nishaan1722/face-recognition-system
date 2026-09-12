@@ -13,14 +13,6 @@ router = APIRouter(prefix="/api", tags=["identify"])
 
 @router.post("/identify", response_model=IdentifyResponse, dependencies=[Depends(rate_limit)])
 async def identify(request: Request, image: UploadFile = File(...), db: Session = Depends(get_db)):
-    """
-    Take a single camera frame, detect the largest face in it, and attempt to
-    match it against the registered population.
-
-    Always returns 200 with a structured "identified" flag rather than 404 -
-    "unrecognized face" is an expected, normal outcome of this endpoint, not
-    an error.
-    """
     if image.content_type not in ALLOWED_IMAGE_TYPES:
         raise HTTPException(
             status.HTTP_400_BAD_REQUEST,
@@ -50,7 +42,6 @@ async def identify(request: Request, image: UploadFile = File(...), db: Session 
 
     individual = db.get(Individual, result.individual_id)
     if individual is None:
-       
         return IdentifyResponse(identified=False, message="No matching registered individual.")
 
     out = IndividualOut.model_validate(individual)
