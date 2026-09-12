@@ -50,12 +50,7 @@ async def register_individual(
     images: list[UploadFile] = File(...),
     db: Session = Depends(get_db),
 ):
-    """
-    Register a new individual. Accepts one or more face images captured
-    during registration (webcam snapshots); each must contain exactly one
-    clearly detectable face. The model is retrained immediately so the
-    individual is identifiable right away.
-    """
+    
     full_name = full_name.strip()
     if not full_name:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "full_name is required.")
@@ -65,8 +60,7 @@ async def register_individual(
             f"At least {MIN_SAMPLES_PER_INDIVIDUAL} face image is required.",
         )
 
-    # Validate every image contains a detectable face BEFORE writing anything,
-    # so a bad frame doesn't leave a half-registered individual behind.
+
     crops = []
     for f in images:
         raw = await _read_and_validate(f)
@@ -91,7 +85,7 @@ async def register_individual(
         notes=notes.strip() or None,
     )
     db.add(individual)
-    db.flush()  # populate individual.id before writing files that reference it
+    db.flush()  
 
     person_dir = Path(FACES_DIR) / str(individual.id)
     person_dir.mkdir(parents=True, exist_ok=True)
@@ -147,7 +141,7 @@ def delete_individual(individual_id: int, db: Session = Depends(get_db)):
     try:
         person_dir.rmdir()
     except OSError:
-        pass  # not empty or already gone; harmless
+        pass  
 
     db.delete(individual)
     db.commit()
