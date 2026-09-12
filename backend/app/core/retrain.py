@@ -6,7 +6,7 @@ from app.models.db_models import FaceSample
 
 
 def retrain_from_db(db: Session) -> None:
-    """Reload every stored face crop and retrain the LBPH engine on it."""
+    
     samples: list[tuple] = []
     for sample in db.query(FaceSample).all():
         img = cv2.imread(sample.image_path, cv2.IMREAD_GRAYSCALE)
