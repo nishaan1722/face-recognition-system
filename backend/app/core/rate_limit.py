@@ -1,15 +1,3 @@
-"""
-Minimal in-memory sliding-window rate limiter.
-
-The /api/identify endpoint is deliberately left unauthenticated (it's the
-public "walk up to the camera" flow), which makes it the one endpoint an
-anonymous client could hammer. A tiny per-IP rate limit is cheap insurance
-against that, without needing an external dependency (Redis, slowapi) for
-what is a small, single-process application.
-
-Not suitable as-is for a multi-process/horizontally-scaled deployment (state
-is per-process); a production version would move this to shared storage.
-"""
 import time
 from collections import defaultdict, deque
 
