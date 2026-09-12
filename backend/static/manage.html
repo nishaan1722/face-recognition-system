@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manage - Identification System</title>
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Identification System</div>
+    <nav class="tabs">
+      <a href="/">Overview</a>
+      <a href="/register">Register</a>
+      <a href="/identify">Identify</a>
+      <a href="/manage" class="active">Manage</a>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+  <h1>Registered roster</h1>
+  <p class="lede">View and remove registered individuals.</p>
+
+  <div class="panel">
+    <div class="token-field">
+      <label for="admin-token" style="margin:0;">Admin token</label>
+      <input type="text" id="admin-token" placeholder="paste admin token" />
+      <button id="btn-refresh">Refresh</button>
+    </div>
+    <div id="roster-area">
+      <div class="empty-state">Enter your admin token and click refresh.</div>
+    </div>
+  </div>
+</main>
+
+<script src="/static/js/common.js"></script>
+<script src="/static/js/manage.js"></script>
+</body>
+</html>

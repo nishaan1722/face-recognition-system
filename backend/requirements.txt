@@ -1,0 +1,8 @@
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+sqlalchemy==2.0.52
+python-multipart==0.0.32
+opencv-contrib-python-headless==5.0.0.93
+numpy
+pillow
+python-dotenv

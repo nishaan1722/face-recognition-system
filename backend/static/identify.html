@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Identify - Identification System</title>
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Identification System</div>
+    <nav class="tabs">
+      <a href="/">Overview</a>
+      <a href="/register">Register</a>
+      <a href="/identify" class="active">Identify</a>
+      <a href="/manage">Manage</a>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+  <h1>Real-time identification</h1>
+  <p class="lede">Start the camera and stand in frame. The system checks for a match roughly every 1.5 seconds.</p>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h2>Camera</h2>
+      <div class="video-wrap">
+        <video id="video" autoplay playsinline muted></video>
+      </div>
+      <div class="shot-row">
+        <button id="btn-start-cam">Start camera</button>
+        <button id="btn-stop-cam" disabled>Stop</button>
+      </div>
+      <div class="status-line" id="cam-status"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Result</h2>
+      <div id="result-area">
+        <div class="empty-state">Start the camera to begin identification.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<canvas id="capture-canvas" style="display:none;"></canvas>
+
+<script src="/static/js/common.js"></script>
+<script src="/static/js/identify.js"></script>
+</body>
+</html>

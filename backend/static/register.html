@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register - Identification System</title>
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Identification System</div>
+    <nav class="tabs">
+      <a href="/">Overview</a>
+      <a href="/register" class="active">Register</a>
+      <a href="/identify">Identify</a>
+      <a href="/manage">Manage</a>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+  <h1>Register an individual</h1>
+  <p class="lede">Capture 3-5 face photos from slightly different angles for the most reliable recognition later.</p>
+
+  <div class="panel">
+    <div class="token-field">
+      <label for="admin-token" style="margin:0;">Admin token</label>
+      <input type="text" id="admin-token" placeholder="paste admin token" />
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h2>Camera</h2>
+      <div class="video-wrap">
+        <video id="video" autoplay playsinline muted></video>
+      </div>
+      <div class="shot-row">
+        <button id="btn-start-cam">Start camera</button>
+        <button id="btn-capture" class="primary" disabled>Capture photo</button>
+      </div>
+      <div class="status-line" id="cam-status"></div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Details</h2>
+      <div class="field">
+        <label for="full_name">Full name *</label>
+        <input type="text" id="full_name" placeholder="Jane Doe" />
+      </div>
+      <div class="field">
+        <label for="role_or_title">Role / title</label>
+        <input type="text" id="role_or_title" placeholder="Operations Lead" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="jane@example.com" />
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="+91 90000 00000" />
+      </div>
+      <div class="field">
+        <label for="notes">Notes</label>
+        <textarea id="notes" placeholder="Any extra context to display on identification"></textarea>
+      </div>
+      <button id="btn-submit" class="primary" disabled>Register individual</button>
+      <div class="status-line" id="submit-status"></div>
+    </div>
+  </div>
+</main>
+
+<canvas id="capture-canvas" style="display:none;"></canvas>
+
+<script src="/static/js/common.js"></script>
+<script src="/static/js/register.js"></script>
+</body>
+</html>
