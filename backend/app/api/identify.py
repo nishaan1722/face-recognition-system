@@ -50,7 +50,7 @@ async def identify(request: Request, image: UploadFile = File(...), db: Session 
 
     individual = db.get(Individual, result.individual_id)
     if individual is None:
-        # Model/DB briefly out of sync (e.g. deletion race) - treat as unknown.
+       
         return IdentifyResponse(identified=False, message="No matching registered individual.")
 
     out = IndividualOut.model_validate(individual)
