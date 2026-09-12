@@ -18,9 +18,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# CORS is restricted to same-origin by default; the frontend is served by
-# this same app so no cross-origin calls are actually needed. Loosen this
-# only if the static frontend is ever split out to a separate origin.
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[],
@@ -39,9 +37,6 @@ app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=db_engine)
-    # Warm the recognizer from whatever is already registered (covers the
-    # case where the process restarted and the cached model file is stale
-    # or missing).
     db = SessionLocal()
     try:
         retrain_from_db(db)
